@@ -1,11 +1,16 @@
 import IUser from "./IUser";
 
+enum appointmentStatus {
+    ACTIVE = "active",
+    CANCELLED = "cancelled"
+};
+
 interface IAppointment {
     id: number,
     date: Date,
-    time: number,
+    time: Date,
     userId: IUser,
-    status: boolean
+    status: appointmentStatus
 };
 
 export default IAppointment;
