@@ -1,16 +1,12 @@
-import IUser from "./IUser";
-
-enum appointmentStatus {
+export enum appointmentStatus {
     ACTIVE = "active",
     CANCELLED = "cancelled"
 };
 
-interface IAppointment {
+export interface IAppointment {
     id: number,
     date: Date,
-    time: Date,
-    userId: IUser,
+    time: string,
+    userId: number,
     status: appointmentStatus
 };
-
-export default IAppointment;

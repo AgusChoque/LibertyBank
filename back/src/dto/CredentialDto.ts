@@ -1,5 +1,5 @@
 interface CredentialDto {
-    username: string,
+    username: string
     password: string
 };
 
