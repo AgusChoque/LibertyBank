@@ -1,11 +1,12 @@
 import { error } from "console";
 import { NextFunction, Request, Response } from "express";
-import IUser from "../interfaces/IUser";
-import { getUserByIdService, getUsersService, setUserService } from "../services/userService";
+import { createUserService, getUserByIdService, getUsersService } from "../services/userService";
+import { User } from "../entities/user";
+import { registerService } from "../services/credentialService";
 
 export const getUsers = async (req: Request, res: Response, next: NextFunction)  => {
     try {
-        const users: IUser[] = await getUsersService();
+        const users: User[] = await getUsersService();
         res.status(200).json({
             message: "Users found successfully.",
             data: users
@@ -17,7 +18,7 @@ export const getUsers = async (req: Request, res: Response, next: NextFunction) 
 
 export const getUserById = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const userById: IUser = await getUserByIdService(Number(req.params.id));
+        const userById: User = await getUserByIdService(Number(req.params.id));
         res.status(200).json({
             message: "User found successfully.",
             data: userById
@@ -29,10 +30,12 @@ export const getUserById = async (req: Request, res: Response, next: NextFunctio
 
 export const createUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const newUser: IUser = await setUserService(req.body);
+        const {name, email, birthdate, nDni, credentials} = req.body
+        const newCredential = await registerService(credentials);
+        const newUser = await createUserService({name, email, birthdate, nDni, credentialId: newCredential});
         res.status(201).json({
             message: "User created successfully.",
-            data: newUser
+            data: {...newUser, credentials:undefined}
         });
     } catch {
         next(error);

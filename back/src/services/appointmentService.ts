@@ -1,63 +1,56 @@
+import { AppointmentModel, UserModel } from "../config/data-source";
 import AppointmentDto from "../dto/AppointmentDto";
-import { IAppointment, appointmentStatus } from "../interfaces/IAppointment";
-
-//Array of IAppointment to use as "preload".
-const appointments: IAppointment[] = [];
-
-const appointment1: IAppointment = {
-    id: 1,
-    date: new Date("2025-02-10"),
-    time: "09:30",
-    userId: 1,
-    status: appointmentStatus.ACTIVE
-};
-
-const appointment2: IAppointment = {
-    id: 2,
-    date: new Date("2025-03-05"),
-    time: "14:00",
-    userId:2,
-    status: appointmentStatus.ACTIVE
-};
-
-appointments.push(appointment1);
-appointments.push(appointment2);
+import { Appointment, appointmentStatus } from "../entities/appointment";
 
 //Return all appointments.
-export const getAppointmentsService = async (): Promise<IAppointment[]> => {
+export const getAppointmentsService = async (): Promise<Appointment[]> => {
+    const appointments: Appointment[] = await AppointmentModel.find({
+        relations: {
+            user: true,
+        },
+    });
     return appointments;
 };
 
 //Return appointment by id.
-export const getAppointmentByIdService = async (id: number): Promise<IAppointment> => {
-    const appointmentFinded: IAppointment | undefined = appointments.find((appoint:IAppointment):IAppointment | undefined => {
-        if (appoint.id === id) return appoint;
-    })
+export const getAppointmentByIdService = async (id: number): Promise<Appointment> => {
+    const appointment:Appointment | null = await AppointmentModel.findOne({
+        where:{
+            id,
+        },
+        relations:{
+            user: true,
+        },
+    });
 
-    if (appointmentFinded === undefined) throw Error;
-    else return appointmentFinded;
-}
+    if (appointment) {
+        return appointment;
+    } else {
+        throw Error(`The appointment with ID ${id} does not exist.`)
+    }
+};
 
 //Create appointment and return it.
-let id = 3;
+export const setAppointmentService = async ({date, time, userId}: AppointmentDto): Promise<Appointment> => {
+    const user = await UserModel.findOneBy({id: userId});
+    if(user){
+        const newAppointment = await AppointmentModel.create({date, time, user: user, status: appointmentStatus.ACTIVE});
+        await AppointmentModel.save(newAppointment);
+        return newAppointment;
+    } else {
+        throw Error("The user requesting a new appointment does not exist.")
+    }
 
-export const setAppointmentService = async ({date, time, userId}: AppointmentDto): Promise<IAppointment> => {
-    const newAppointment:IAppointment = {
-        id,
-        date,
-        time,
-        userId,
-        status: appointmentStatus.ACTIVE
-    };
-
-    appointments.push(newAppointment);
-    id++
-    return newAppointment;
 };
 
 //Get an appointment by id and change it status to "cancelled".
-export const cancelAppointmentService = async (id: number): Promise<IAppointment> => {
-    const i = appointments.findIndex(appoint => appoint.id == id);
-    appointments[i].status = appointmentStatus.CANCELLED;
-    return appointments[i];
+export const cancelAppointmentService = async (id: number): Promise<Appointment> => {
+    const appointment = await AppointmentModel.findOneBy({id});
+    if(appointment) {
+        appointment.status = appointmentStatus.CANCELLED;
+        await AppointmentModel.save(appointment);
+        return appointment;
+    } else {
+        throw Error(`The appointment with ID ${id} does not exist.`);
+    };
 };

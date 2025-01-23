@@ -1,62 +1,47 @@
+import { CredentialModel, UserModel } from "../config/data-source";
 import UserDto from "../dto/UserDto";
-import IUser from "../interfaces/IUser";
-import { setCredentialService } from "./credentialService";
-
-//Array of IUser to use as "preload".
-const users: IUser[] = [];
-
-const user1: IUser = {
-    id: 1,
-    name: "Juan Pérez",
-    email: "juanperez@example.com",
-    birthdate: new Date("1990-05-15"),
-    nDni: 12345678,
-    credentialsId: 1
-};
-
-const user2: IUser = {
-    id: 2,
-    name: "Admin Test",
-    email: "admintest@example.com",
-    birthdate: new Date("1985-09-20"),
-    nDni: 87654321,
-    credentialsId: 2
-};
-
-users.push(user1);
-users.push(user2);
+import { Credential } from "../entities/Credential";
+import { User } from "../entities/user";
 
 //Return all users.
-export const getUsersService = async (): Promise<IUser[]> => {
+export const getUsersService = async (): Promise<User[]> => {
+    const users: User[] = await UserModel.find({
+        relations:{
+            appointments: true
+        }
+    });
     return users
 };
 
 //Return a user by id.
-export const getUserByIdService = async (id:number): Promise<IUser> => {
-    const user:IUser | undefined = users.find((user:IUser): IUser | undefined => { if (user.id === id) { return user }});
-    if (user == undefined) {
-        throw Error;
+export const getUserByIdService = async (id:number): Promise<User> => {
+    const user = await UserModel.findOne({
+        where:{
+            id
+        },
+        relations:{
+            appointments: true
+        }
+    });
+    if(user) {
+        return user
     } else {
-        return user;
-    }
-}
+        throw Error(`The user with ID ${id} does not exist.`);
+    };
+};
 
 //Create a new user. 
-let id = 3;
+export const createUserService = async (userDto:UserDto):Promise<User> => {
+    const {name, email, birthdate, nDni} = userDto;
 
-export const setUserService = async (userDto:UserDto):Promise<IUser> => {
-    const newCredential: number = await setCredentialService(userDto.credentials);
-
-    const newUser: IUser = {
-        id,
-        name: userDto.name,
-        email: userDto.email,
-        birthdate: new Date(userDto.birthdate),
-        nDni: userDto.nDni,
-        credentialsId: newCredential
+    const newUser:User = await UserModel.create({name, email, birthdate, nDni});
+    const credential: Credential | null = await CredentialModel.findOneBy({id: userDto.credentialId})
+    
+    if (credential){
+        newUser.credentials = credential
+        await UserModel.save(newUser);
+        return newUser
+    } else {
+        throw Error("No valid credential was found for the user.")
     };
-
-    users.push(newUser);
-    id++;
-    return newUser;
-}
+};
