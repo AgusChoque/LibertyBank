@@ -1,15 +1,16 @@
 import { DataSource } from "typeorm";
 import { Credential } from "../entities/Credential";
-import { User } from "../entities/user";
+import { User } from "../entities/User";
 import { Appointment } from "../entities/appointment";
+import { DATABASE, HOST, PASSWORD, PORTDB, USER } from "./envs";
 
 export const AppDataSource = new DataSource({
     type: "postgres",
-    host: "localhost",
-    port: 5432,
-    username: "postgres",
-    password: "43812Agus",
-    database: "henry_m3",
+    host: HOST,
+    port: PORTDB,
+    username: USER,
+    password: PASSWORD,
+    database: DATABASE,
     // dropSchema: true,
     synchronize: true,
     logging: false,
@@ -17,7 +18,3 @@ export const AppDataSource = new DataSource({
     subscribers: [],
     migrations: [],
 });
-
-export const CredentialModel = AppDataSource.getRepository(Credential);
-export const UserModel = AppDataSource.getRepository(User);
-export const AppointmentModel = AppDataSource.getRepository(Appointment);
