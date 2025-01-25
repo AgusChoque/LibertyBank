@@ -1,13 +1,15 @@
-import { CredentialModel, UserModel } from "../config/data-source";
+import UserRepository from "../repositories/UserRepository";
+import CredentialRepository from "../repositories/CredentialRepository";
 import UserDto from "../dto/UserDto";
 import { Credential } from "../entities/Credential";
-import { User } from "../entities/user";
+import { User } from "../entities/User";
 
 //Return all users.
 export const getUsersService = async (): Promise<User[]> => {
-    const users: User[] = await UserModel.find({
+    const users: User[] = await UserRepository.find({
         relations:{
-            appointments: true
+            appointments: true,
+            credentials: true
         }
     });
     return users
@@ -15,12 +17,13 @@ export const getUsersService = async (): Promise<User[]> => {
 
 //Return a user by id.
 export const getUserByIdService = async (id:number): Promise<User> => {
-    const user = await UserModel.findOne({
+    const user = await UserRepository.findOne({
         where:{
             id
         },
         relations:{
-            appointments: true
+            appointments: true,
+            credentials: true
         }
     });
     if(user) {
@@ -34,12 +37,12 @@ export const getUserByIdService = async (id:number): Promise<User> => {
 export const createUserService = async (userDto:UserDto):Promise<User> => {
     const {name, email, birthdate, nDni} = userDto;
 
-    const newUser:User = await UserModel.create({name, email, birthdate, nDni});
-    const credential: Credential | null = await CredentialModel.findOneBy({id: userDto.credentialId})
+    const newUser:User = await UserRepository.create({name, email, birthdate, nDni});
+    const credential: Credential | null = await CredentialRepository.findOneBy({id: userDto.credentialId})
     
     if (credential){
         newUser.credentials = credential
-        await UserModel.save(newUser);
+        await UserRepository.save(newUser);
         return newUser
     } else {
         throw Error("No valid credential was found for the user.")

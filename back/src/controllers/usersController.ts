@@ -1,7 +1,7 @@
 import { error } from "console";
 import { NextFunction, Request, Response } from "express";
 import { createUserService, getUserByIdService, getUsersService } from "../services/userService";
-import { User } from "../entities/user";
+import { User } from "../entities/User";
 import { registerService } from "../services/credentialService";
 
 export const getUsers = async (req: Request, res: Response, next: NextFunction)  => {

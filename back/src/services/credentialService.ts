@@ -1,11 +1,10 @@
-import { CredentialModel } from "../config/data-source";
+import CredentialRepository from "../repositories/CredentialRepository";
 import CredentialDto from "../dto/CredentialDto";
-import ICredential from "../interfaces/ICredential";
 
 //Create a new credential and return id.
 export const registerService = async (CredentialDto: CredentialDto): Promise<number> => {
-    const newCredential = await CredentialModel.create(CredentialDto)
-    const result = await CredentialModel.save(newCredential);
+    const newCredential = await CredentialRepository.create(CredentialDto)
+    const result = await CredentialRepository.save(newCredential);
 
     return result.id
 };

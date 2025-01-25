@@ -1,8 +1,7 @@
 import { error } from "console";
 import { NextFunction, Request, Response } from "express";
 import { cancelAppointmentService, getAppointmentByIdService, getAppointmentsService, setAppointmentService } from "../services/appointmentService";
-import { IAppointment } from "../interfaces/IAppointment";
-import { Appointment } from "../entities/appointment";
+import { Appointment } from "../entities/Appointment";
 
 export const getAppointments = async (req: Request, res: Response, next: NextFunction) => {
     try {

@@ -1,10 +1,11 @@
-import { AppointmentModel, UserModel } from "../config/data-source";
+import AppointmentRepository from "../repositories/AppointmentRepository";
+import UserRepository from "../repositories/UserRepository";
 import AppointmentDto from "../dto/AppointmentDto";
-import { Appointment, appointmentStatus } from "../entities/appointment";
+import { Appointment, appointmentStatus } from "../entities/Appointment";
 
 //Return all appointments.
 export const getAppointmentsService = async (): Promise<Appointment[]> => {
-    const appointments: Appointment[] = await AppointmentModel.find({
+    const appointments: Appointment[] = await AppointmentRepository.find({
         relations: {
             user: true,
         },
@@ -14,7 +15,7 @@ export const getAppointmentsService = async (): Promise<Appointment[]> => {
 
 //Return appointment by id.
 export const getAppointmentByIdService = async (id: number): Promise<Appointment> => {
-    const appointment:Appointment | null = await AppointmentModel.findOne({
+    const appointment:Appointment | null = await AppointmentRepository.findOne({
         where:{
             id,
         },
@@ -32,10 +33,10 @@ export const getAppointmentByIdService = async (id: number): Promise<Appointment
 
 //Create appointment and return it.
 export const setAppointmentService = async ({date, time, userId}: AppointmentDto): Promise<Appointment> => {
-    const user = await UserModel.findOneBy({id: userId});
+    const user = await UserRepository.findOneBy({id: userId});
     if(user){
-        const newAppointment = await AppointmentModel.create({date, time, user: user, status: appointmentStatus.ACTIVE});
-        await AppointmentModel.save(newAppointment);
+        const newAppointment = await AppointmentRepository.create({date, time, user: user, status: appointmentStatus.ACTIVE});
+        await AppointmentRepository.save(newAppointment);
         return newAppointment;
     } else {
         throw Error("The user requesting a new appointment does not exist.")
@@ -45,10 +46,10 @@ export const setAppointmentService = async ({date, time, userId}: AppointmentDto
 
 //Get an appointment by id and change it status to "cancelled".
 export const cancelAppointmentService = async (id: number): Promise<Appointment> => {
-    const appointment = await AppointmentModel.findOneBy({id});
+    const appointment = await AppointmentRepository.findOneBy({id});
     if(appointment) {
         appointment.status = appointmentStatus.CANCELLED;
-        await AppointmentModel.save(appointment);
+        await AppointmentRepository.save(appointment);
         return appointment;
     } else {
         throw Error(`The appointment with ID ${id} does not exist.`);
