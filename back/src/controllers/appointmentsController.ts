@@ -1,52 +1,41 @@
-import { error } from "console";
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 import { cancelAppointmentService, getAppointmentByIdService, getAppointmentsService, setAppointmentService } from "../services/appointmentService";
 import { Appointment } from "../entities/Appointment";
+import catchAsync from "../utils/catchAsync";
 
-export const getAppointments = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const appointments: Appointment[] = await getAppointmentsService();
-        res.status(200).json({
-            message: "Appointments found successfully.",
-            data: appointments
-        });
-    } catch {
-        next(error);
-    };
+const getAppointmentsController = async (req: Request, res: Response) => {
+    const appointments: Appointment[] = await getAppointmentsService();
+    res.status(200).json({
+        message: "Appointments found successfully.",
+        data: appointments
+    });
 };
 
-export const getAppointmentById = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const appointment: Appointment = await getAppointmentByIdService(Number(req.params.id));
-        res.status(200).json({
-            message: "Appointment found successfully.",
-            data: appointment
-        });
-    } catch {
-        next(error);
-    };
+const getAppointmentByIdController = async (req: Request, res: Response) => {
+    const appointment: Appointment = await getAppointmentByIdService(Number(req.params.id));
+    res.status(200).json({
+        message: "Appointment found successfully.",
+        data: appointment
+    });
 };
 
-export const createAppointment = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const newAppointment: Appointment = await setAppointmentService(req.body);
-        res.status(201).json({
-            message: "Appointment created successfully.",
-            data: newAppointment
-        });
-    } catch {
-        next(error);
-    };
+const createAppointmentController = async (req: Request, res: Response) => {
+    const newAppointment: Appointment = await setAppointmentService(req.body);
+    res.status(201).json({
+        message: "Appointment created successfully.",
+        data: newAppointment
+    });
 };
 
-export const cancelAppointments = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const cancel: Appointment = await cancelAppointmentService(Number(req.params.id));
-        res.status(200).json({
-            message: "Appointment cancelled successfully.",
-            data: cancel
-        });
-    } catch {
-        next(error);
-    };
+const cancelAppointmentController = async (req: Request, res: Response) => {
+    const cancel: Appointment = await cancelAppointmentService(Number(req.params.id));
+    res.status(200).json({
+        message: "Appointment cancelled successfully.",
+        data: cancel
+    });
 };
+
+export const getAppointments = catchAsync(getAppointmentsController);
+export const getAppointmentById = catchAsync(getAppointmentByIdController);
+export const createAppointment = catchAsync(createAppointmentController);
+export const cancelAppointment = catchAsync(cancelAppointmentController);
