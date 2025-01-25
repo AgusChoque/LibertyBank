@@ -12,7 +12,7 @@ const preloadData = async () => {
     await queryRunner.startTransaction();
     try {
         const credentials: Credential[] = await CredentialRepository.find();
-        if (credentials.length) return console.log("The preloading was not performed because there is already data in the database.");
+        if (credentials.length) return console.log("The preload was not performed because there is already data in the database.");
 
         await preloadCredentials();
         await preloadUsers();

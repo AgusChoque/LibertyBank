@@ -10,6 +10,7 @@ app.use(express.json());
 app.use("/", mainRouter);
 app.use((err: errorDto, req: Request, res: Response, next: NextFunction) => {
     res.status(err.statusCode || 500).json({
+        login: err.login,
         error: err.message
     });
 });

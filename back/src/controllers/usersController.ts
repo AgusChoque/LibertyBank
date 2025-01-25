@@ -4,6 +4,7 @@ import { User } from "../entities/User";
 import { loginService, registerService } from "../services/credentialService";
 import UserRepository from "../repositories/UserRepository";
 import catchAsync from "../utils/catchAsync";
+import errorDto from "../dto/errorDto";
 
 const getUsersController = async (req: Request, res: Response)  => {
     const users: User[] = await getUsersService();
@@ -32,13 +33,16 @@ const createUserController = async (req: Request, res: Response) => {
 };
 
 const logInUserController = async (req: Request, res: Response) => {
-    const userId = await loginService(req.body);
-    const user = await UserRepository.findById(userId, false);
-    
-    res.status(200).json({
-        login: true,
-        user,
-    });
+    const userId: number | errorDto = await loginService(req.body);
+    if(typeof userId === "number"){
+        const user = await UserRepository.findById(userId, false);
+        
+        res.status(200).json({
+            login: true,
+            user,
+        });
+    };
+    throw userId;
 };
 
 export const getUsers = catchAsync(getUsersController);

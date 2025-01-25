@@ -11,6 +11,9 @@ export const getUsersService = async (): Promise<User[]> => {
             appointments: true,
         },
     });
+    if(users.length === 0) {
+        throw Error("There are no users in the database.");
+    };
     return users
 };
 

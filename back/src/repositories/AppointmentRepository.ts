@@ -12,7 +12,7 @@ const AppointmentRepository = AppDataSource.getRepository(Appointment).extend({
             },
         });
         if (appointment) return appointment;
-        else throw Error("Invalid appointment ID.");
+        else throw Error(`The appointment with ID ${id} does not exist.`);
     },
 });
 

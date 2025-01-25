@@ -5,7 +5,7 @@ const UserRepository = AppDataSource.getRepository(User).extend({
     checkId: async (id: number): Promise<User> => {
         const user: User | null = await UserRepository.findOneBy({id});
         if (user) return user;
-        else throw Error("Invalid user ID.");
+        else throw Error(`The user with ID ${id} does not exist.`);
     },
     findById: async (id: number, relation: boolean = true): Promise<User> => {
         const user = await UserRepository.findOne({
@@ -15,7 +15,7 @@ const UserRepository = AppDataSource.getRepository(User).extend({
             }
         });
 
-        if (!user) throw Error("Invalid user ID.");
+        if (!user) throw Error(`The user with ID ${id} does not exist.`);
         else return user;
     }
 });

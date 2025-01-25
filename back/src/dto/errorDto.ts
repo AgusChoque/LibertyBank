@@ -1,4 +1,5 @@
 interface errorDto {
+    login?: boolean;
     statusCode: number;
     message: string;
 };
