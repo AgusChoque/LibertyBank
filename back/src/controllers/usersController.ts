@@ -1,8 +1,8 @@
-import { error } from "console";
 import { NextFunction, Request, Response } from "express";
 import { createUserService, getUserByIdService, getUsersService } from "../services/userService";
 import { User } from "../entities/User";
-import { registerService } from "../services/credentialService";
+import { loginService, registerService } from "../services/credentialService";
+import UserRepository from "../repositories/UserRepository";
 
 export const getUsers = async (req: Request, res: Response, next: NextFunction)  => {
     try {
@@ -11,8 +11,8 @@ export const getUsers = async (req: Request, res: Response, next: NextFunction) 
             message: "Users found successfully.",
             data: users
         })
-    } catch {
-        next(error);
+    } catch (err) {
+        next(err);
     };
 };
 
@@ -23,8 +23,8 @@ export const getUserById = async (req: Request, res: Response, next: NextFunctio
             message: "User found successfully.",
             data: userById
         });
-    } catch {
-        next(error);
+    } catch (err) {
+        next(err);
     };
 };
 
@@ -37,11 +37,21 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
             message: "User created successfully.",
             data: {...newUser, credentials:undefined}
         });
-    } catch {
-        next(error);
+    } catch (err) {
+        next(err);
     };
 };
 
 export const logInUser = async (req: Request, res: Response, next: NextFunction) => {
-    res.send("User login to the application.");
+    try {
+        const userId = await loginService(req.body);
+        const user = await UserRepository.findById(userId, false);
+
+        res.status(200).json({
+            login: true,
+            user,
+        });
+    } catch (err) {
+        next(err);
+    };
 };

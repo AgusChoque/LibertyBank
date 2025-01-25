@@ -9,23 +9,14 @@ export const getUsersService = async (): Promise<User[]> => {
     const users: User[] = await UserRepository.find({
         relations:{
             appointments: true,
-            credentials: true
-        }
+        },
     });
     return users
 };
 
 //Return a user by id.
 export const getUserByIdService = async (id:number): Promise<User> => {
-    const user = await UserRepository.findOne({
-        where:{
-            id
-        },
-        relations:{
-            appointments: true,
-            credentials: true
-        }
-    });
+    const user = await UserRepository.findById(id)
     if(user) {
         return user
     } else {
@@ -34,17 +25,11 @@ export const getUserByIdService = async (id:number): Promise<User> => {
 };
 
 //Create a new user. 
-export const createUserService = async (userDto:UserDto):Promise<User> => {
-    const {name, email, birthdate, nDni} = userDto;
-
-    const newUser:User = await UserRepository.create({name, email, birthdate, nDni});
-    const credential: Credential | null = await CredentialRepository.findOneBy({id: userDto.credentialId})
+export const createUserService = async (userDto:UserDto):Promise<User> => { 
+    const newUser:User = await UserRepository.create(userDto);
     
-    if (credential){
-        newUser.credentials = credential
-        await UserRepository.save(newUser);
-        return newUser
-    } else {
-        throw Error("No valid credential was found for the user.")
-    };
+    const credential: Credential = await CredentialRepository.findById(userDto.credentialId);
+    newUser.credentials = credential;
+    await UserRepository.save(newUser);
+    return newUser;
 };

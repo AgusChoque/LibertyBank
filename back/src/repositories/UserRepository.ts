@@ -7,11 +7,11 @@ const UserRepository = AppDataSource.getRepository(User).extend({
         if (user) return user;
         else throw Error("Invalid user ID.");
     },
-    findById: async (id: number): Promise<User> => {
+    findById: async (id: number, relation: boolean = true): Promise<User> => {
         const user = await UserRepository.findOne({
             where:{id},
             relations:{
-                appointments: true
+                appointments: relation,
             }
         });
 

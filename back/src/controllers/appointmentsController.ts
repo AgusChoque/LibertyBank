@@ -17,7 +17,7 @@ export const getAppointments = async (req: Request, res: Response, next: NextFun
 
 export const getAppointmentById = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const appointment: Appointment = await getAppointmentByIdService(Number(req.body.id));
+        const appointment: Appointment = await getAppointmentByIdService(Number(req.params.id));
         res.status(200).json({
             message: "Appointment found successfully.",
             data: appointment
@@ -41,7 +41,7 @@ export const createAppointment = async (req: Request, res: Response, next: NextF
 
 export const cancelAppointments = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const cancel: Appointment = await cancelAppointmentService(Number(req.body.id));
+        const cancel: Appointment = await cancelAppointmentService(Number(req.params.id));
         res.status(200).json({
             message: "Appointment cancelled successfully.",
             data: cancel
