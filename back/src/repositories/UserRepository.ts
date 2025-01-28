@@ -1,23 +1,19 @@
 import { AppDataSource } from "../config/data-source";
 import { User } from "../entities/User";
+import DataError from "../errors/dataError";
 
 const UserRepository = AppDataSource.getRepository(User).extend({
-    checkId: async (id: number): Promise<User> => {
-        const user: User | null = await UserRepository.findOneBy({id});
-        if (user) return user;
-        else throw Error(`The user with ID ${id} does not exist.`);
-    },
-    findById: async (id: number, relation: boolean = true): Promise<User> => {
+    findById: async (id: number, relations: boolean = false): Promise<User> => {
         const user = await UserRepository.findOne({
             where:{id},
             relations:{
-                appointments: relation,
+                appointments: relations,
             }
         });
 
-        if (!user) throw Error(`The user with ID ${id} does not exist.`);
+        if (!user) throw new DataError(404, `The user with ID ${id} does not exist.`);
         else return user;
-    }
+    },
 });
 
 export default UserRepository;

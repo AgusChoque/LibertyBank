@@ -1,18 +1,12 @@
 import express from "express";
-import { Request, Response, NextFunction } from "express";
 import mainRouter from "./routes";
-import errorDto from "./dto/errorDto";
+import errorHandler from "./errors";
 
 const app = express();
 
 app.use(express.json());
 
 app.use("/", mainRouter);
-app.use((err: errorDto, req: Request, res: Response, next: NextFunction) => {
-    res.status(err.statusCode || 500).json({
-        login: err.login,
-        error: err.message
-    });
-});
+app.use(errorHandler);
 
 export default app

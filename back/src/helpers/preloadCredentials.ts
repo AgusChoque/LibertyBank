@@ -1,6 +1,5 @@
 import { AppDataSource } from "../config/data-source";
 import CredentialDto from "../dto/CredentialDto";
-import { Credential } from "../entities/Credential";
 import CredentialRepository from "../repositories/CredentialRepository";
 
 const credentialData: CredentialDto[] = [

@@ -11,5 +11,5 @@ usersRouter.get("/:id", paramIdValidate, getUserById);
 
 usersRouter.post("/register", validRegister, formatRegister, createUser);
 usersRouter.post("/login", logInUser);
-
+//TODO: un validate para login. Casi lo mismo q para registrar.
 export default usersRouter;

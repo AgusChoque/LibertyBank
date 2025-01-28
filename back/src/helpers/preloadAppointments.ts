@@ -62,7 +62,7 @@ const preloadAppointments = async () => {
     const appointmetsPromises = appointmentsData.map(async(appointment) => {
         const newAppointment = AppointmentRepository.create({...appointment, status: appointmentStatus.ACTIVE});
 
-        const user = await UserRepository.checkId(appointment.userId);
+        const user = await UserRepository.findById(appointment.userId);
         newAppointment.user = user;
         
         await queryRunner.manager.save(newAppointment);

@@ -2,6 +2,7 @@ import AppointmentRepository from "../repositories/AppointmentRepository";
 import UserRepository from "../repositories/UserRepository";
 import AppointmentDto from "../dto/AppointmentDto";
 import { Appointment, appointmentStatus } from "../entities/Appointment";
+import DataError from "../errors/dataError";
 
 //Return all appointments.
 export const getAppointmentsService = async (): Promise<Appointment[]> => {
@@ -10,19 +11,21 @@ export const getAppointmentsService = async (): Promise<Appointment[]> => {
             user: true,
         },
     });
+    if (!appointments.length) throw new DataError(404, "Users not found.");
     return appointments;
 };
 
 //Return appointment by id.
 export const getAppointmentByIdService = async (id: number): Promise<Appointment> => {
-    const appointment: Appointment = await AppointmentRepository.findById(id);
+    const appointment: Appointment = await AppointmentRepository.findById(id, true);
     return appointment;
 };
 
 //Create appointment and return it.
 export const setAppointmentService = async ({date, time, userId}: AppointmentDto): Promise<Appointment> => {
-    const user = await UserRepository.checkId(userId);    
-    const newAppointment = await AppointmentRepository.create({date, time, user: user, status: appointmentStatus.ACTIVE});
+    const user = await UserRepository.findById(userId);
+        
+    const newAppointment = await AppointmentRepository.create({date, time, user, status: appointmentStatus.ACTIVE});
     await AppointmentRepository.save(newAppointment);
     
     return newAppointment;
@@ -30,7 +33,7 @@ export const setAppointmentService = async ({date, time, userId}: AppointmentDto
 
 //Get an appointment by id and change it status to "cancelled".
 export const cancelAppointmentService = async (id: number): Promise<Appointment> => {
-    const appointment = await AppointmentRepository.findById(id);
+    const appointment = await AppointmentRepository.findById(id, true);
     appointment.status = appointmentStatus.CANCELLED;
     await AppointmentRepository.save(appointment);
     
