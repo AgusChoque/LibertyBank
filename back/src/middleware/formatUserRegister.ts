@@ -13,6 +13,9 @@ const formatUserRegister = async (req: Request, res: Response, next: NextFunctio
     if(name.length > 50 || name.length < 10) next(new DataError(400, "The name must be between 10 and 50 characters."));
 
     //Validations for email.
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (emailRegex.test(email)) next(new DataError(400, "The email is invalid."));
+
     const emailDB = await UserRepository.findBy({email}); 
     if (emailDB.length) next(new DataError(400, `The email ${email} already exists.`));
     if(email.length > 100) next(new DataError(400, "The email must be less than 100 characters."));
@@ -96,6 +99,9 @@ const formatUserRegister = async (req: Request, res: Response, next: NextFunctio
     //Validations for password.
     const password = credentials.password;
     if (password.length < 8) next(new DataError(400, "The password mustn't be less than 8 characters."));
+
+    const passRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>_-]).{8,}$/;
+    if (passRegex.test(password)) throw new DataError(400, "The password must contain at least one lowercase letter, one uppercase letter, one number, and one special character.")
 
     next();
 };
