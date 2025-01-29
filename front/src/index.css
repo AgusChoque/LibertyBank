@@ -1,0 +1,108 @@
+/* Reset de márgenes y rellenos */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Eliminar estilo predeterminado de listas */
+ol, ul {
+  list-style: none;
+}
+
+/* Eliminar estilo de enlaces */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Eliminar bordes y estilos predeterminados de tablas */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* Eliminar el borde de imágenes y botones */
+img, picture, video {
+  max-width: 100%;
+  display: block;
+}
+
+button,
+input,
+optgroup,
+select,
+textarea {
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: none;
+  outline: none;
+}
+
+/* Eliminar el fondo de los botones predeterminados */
+button {
+  cursor: pointer;
+}
+
+/* Establecer fuente base */
+body {
+  font-family: sans-serif;
+  line-height: 1.5;
+}
+
+/* Controlar el tamaño de los elementos */
+h1, h2, h3, h4, h5, h6 {
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+/* Asegurarse de que el contenido multimedia no sobresalga */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Eliminar el estilo de las citas */
+blockquote, q {
+  quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none;
+}
+
+/* Prevenir que los formularios agreguen un estilo diferente */
+input[type="radio"],
+input[type="checkbox"] {
+  box-sizing: border-box;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="search"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+/* Establecer el tamaño y estilo predeterminado para textos */
+textarea {
+  resize: none;
+}
+
+/* Establecer el comportamiento de las imágenes y videos */
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
