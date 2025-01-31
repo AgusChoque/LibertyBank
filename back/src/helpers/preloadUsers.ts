@@ -8,32 +8,32 @@ const usersData: UserDto[] = [
     {
         name: "John Doe",
         email: "john.doe@example.com",
-        birthdate: new Date("1990-05-15"),
+        birthdate: "15/05/1990",
         nDni: 12345678,
         credentialId: 1
     },
     {
         name: "Alice Smith",
         email: "alice.smith@example.com",
-        birthdate: new Date("1985-09-23"),
+        birthdate: "23/09/1985",
         nDni: 23456789,
         credentialId: 2
     },
     {
         name: "Michael Jones",
         email: "michael.jones@example.com",
-        birthdate: new Date("1992-11-30"),
+        birthdate: "30/11/1992",
         nDni: 34567890,
         credentialId: 3
     },
     {
         name: "Sarah Connor",
         email: "sarah.connor@example.com",
-        birthdate: new Date("1980-01-10"),
+        birthdate: "10/01/1980",
         nDni: 45678901,
         credentialId: 4
     }
-]
+];
 
 const preloadUsers = async () => {
     const queryRunner = await AppDataSource.createQueryRunner();

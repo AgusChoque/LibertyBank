@@ -1,6 +1,7 @@
 import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Credential } from "./Credential";
 import { Appointment } from "./Appointment";
+import DateString from "../types/DateString";
 
 @Entity()
 export class User {
@@ -14,7 +15,7 @@ export class User {
     email: string
 
     @Column()
-    birthdate: Date
+    birthdate: DateString
 
     @Column("integer")
     nDni: number

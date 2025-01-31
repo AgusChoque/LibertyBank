@@ -1,7 +1,9 @@
+import DateString from "../types/DateString"
+
 interface UserDto {
     name: string
     email: string
-    birthdate: Date
+    birthdate: DateString
     nDni: number
     credentialId: number
 };

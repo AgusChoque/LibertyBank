@@ -4,31 +4,29 @@ import UserRepository from "../repositories/UserRepository";
 import { Credential } from "../entities/Credential";
 import CredentialRepository from "../repositories/CredentialRepository";
 import DataError from "../errors/dataError";
+import isValidEmail from "../utils/isValidEmail";
+import isValidPassword from "../utils/isValidPassword";
 
 const formatUserRegister = async (req: Request, res: Response, next: NextFunction) => {
     const { name, email, birthdate, nDni, credentials } = req.body;
 
     //Validations for name.
-    const nameSplit: string[] = name.split(""); 
     if(name.length > 50 || name.length < 10) next(new DataError(400, "The name must be between 10 and 50 characters."));
 
     //Validations for email.
-    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    if (emailRegex.test(email)) next(new DataError(400, "The email is invalid."));
+    if (!isValidEmail(email)) next(new DataError(400, "The email is invalid."));
 
-    const emailDB = await UserRepository.findBy({email}); 
+    const emailDB: User[] = await UserRepository.findBy({email}); 
     if (emailDB.length) next(new DataError(400, `The email ${email} already exists.`));
     if(email.length > 100) next(new DataError(400, "The email must be less than 100 characters."));
 
     //Validations for birthdate.
-    const split: string[] = birthdate.split("-");
-    const date: number[] = split.map((num) => Number(num));
+    const split: string[] = birthdate.split("/");
+    const date: number[] = split.map(Number);
 
-    if(date.length !== 3) next(new DataError(400, "The birthdate format is incorrect."));
+    if(date.length !== 3) next(new DataError(400, "The birthdate format is incorrect. Try DD/MM/YYYY"));
     
-    const year: number = date[0];
-    const month: number = date[1];
-    const day: number = date[2];
+    const [day, month, year] = date;
     const errorNumber: string[] = [];
 
     //Validate if every field is a number.
@@ -70,7 +68,7 @@ const formatUserRegister = async (req: Request, res: Response, next: NextFunctio
     }
 
     //Validate if every field is between the numbers that must to be.
-    if(year > 2013 || year < 1925) next(new DataError(400, "The year must be between 1945 and 2013."));
+    if(year > 2007 || year < 1925) next(new DataError(400, "The year must be between 1945 and 2007."));
     if(month < 1 || month > 12) next(new DataError(400, "The month must be between 1 and 12."));
     if(day < 1) next(new DataError(400, "The day mustn't be less than 1."));
     if(month === 2 && day > 28) next(new DataError(400, "The day must be between 1 and 28."));
@@ -100,8 +98,7 @@ const formatUserRegister = async (req: Request, res: Response, next: NextFunctio
     const password = credentials.password;
     if (password.length < 8) next(new DataError(400, "The password mustn't be less than 8 characters."));
 
-    const passRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>_-]).{8,}$/;
-    if (passRegex.test(password)) throw new DataError(400, "The password must contain at least one lowercase letter, one uppercase letter, one number, and one special character.")
+    if (isValidPassword(password)) throw new DataError(400, "The password must contain at least one lowercase letter, one uppercase letter, one number, and one special character.")
 
     next();
 };

@@ -1,22 +1,21 @@
 import { NextFunction, Request, Response } from "express";
 import DataError from "../errors/dataError";
+import Reason from "../types/Reason"
 
 const formatAppointment = async (req: Request, res: Response, next: NextFunction) => {
-    const {date, time, userId} = req.body;
+    const {date, time, reason, userId} = req.body;
 
     //Validations for userId.
     if(userId < 1) next(new DataError(400, "The user ID must be greater than 0."));
     if (!Number.isInteger(userId)) next(new DataError(400, "The user ID must be an integer."));
 
     //Validations for date.
-    const split: string[] = date.split("-");
+    const split: string[] = date.split("/");
     const dateFinal: number[] = split.map((num) => Number(num));
 
-    if(dateFinal.length !== 3) next(new DataError(400, "The date format is incorrect. Try YYYY-MM-DD"));
+    if(dateFinal.length !== 3) next(new DataError(400, "The date format is incorrect. Try DD/MM/YYYY"));
     
-    const year: number = dateFinal[0];
-    const month: number = dateFinal[1];
-    const day: number = dateFinal[2];
+    const [day, month, year] = dateFinal;
     const errorNumber: string[] = [];
 
     //Validate if every field is a number.
@@ -62,7 +61,7 @@ const formatAppointment = async (req: Request, res: Response, next: NextFunction
     const newDate = new Date(year,month-1, day, 0,0,0,1);
 
     if (now >= newDate) next(new DataError(400, "The appointment cannot be today or a past date."));
-    if (newDate.getDay() === 6 || newDate.getDay() === 0) next(new DataError(400, "The appointment cannot be scheduled on a weekend."));
+    if (newDate.getDay() === 0 || newDate.getDay() === 6) next(new DataError(400, "The appointment cannot be scheduled on a weekend."));
     if (now.getFullYear() !== newDate.getFullYear()) next(new DataError(400, "The appointment must be scheduled for the current year."));
 
 
@@ -90,6 +89,22 @@ const formatAppointment = async (req: Request, res: Response, next: NextFunction
 
     if ((hour < 8 || hour > 18) || (hour === 18 && min === 30)) next(new DataError(400, "Appointments must be scheduled between 8:00 and 18:00.")); 
     if (min !== 0 && min !== 30) next(new DataError(400, "Appointments must be scheduled at full hours or half-past.")); 
+
+    //Validations for reason.
+    const validReasons: Reason[] = [
+        "Loan Application",
+        "Credit Card Request",
+        "Investment Advisory",
+        "Fraud Report",
+        "Document Submission",
+        "Banking Assistance",
+        "Check Deposit Issue",
+        "Transaction Dispute",
+        "Foreign Currency Exchange",
+        "Debit Card Replacement",
+        "Mortgage Inquiry"
+    ];
+    if(!validReasons.includes(reason)) next(new DataError(400, `${reason} is not a valid reason.`)); 
 
     next();
 };

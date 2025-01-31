@@ -4,56 +4,18 @@ import { appointmentStatus } from "../entities/Appointment";
 import AppointmentRepository from "../repositories/AppointmentRepository";
 import UserRepository from "../repositories/UserRepository";
 
-const appointmentsData: AppointmentDto[] = [{
-    date: new Date("2025-03-10"),
-    time: "09:00",
-    userId: 1
-},
-{
-    date: new Date("2025-04-15"),
-    time: "14:30",
-    userId: 2
-},
-{
-    date: new Date("2025-05-20"),
-    time: "11:00",
-    userId: 3
-},
-{
-    date: new Date("2025-06-05"),
-    time: "16:45",
-    userId: 4
-},
-{
-    date: new Date("2025-07-12"),
-    time: "08:15",
-    userId: 1
-},
-{
-    date: new Date("2025-08-22"),
-    time: "13:00",
-    userId: 2
-},
-{
-    date: new Date("2025-09-30"),
-    time: "10:30",
-    userId: 3
-},
-{
-    date: new Date("2025-10-18"),
-    time: "17:20",
-    userId: 4
-},
-{
-    date: new Date("2025-11-25"),
-    time: "15:45",
-    userId: 3
-},
-{
-    date: new Date("2025-12-05"),
-    time: "12:00",
-    userId: 4
-}]
+const appointmentsData: AppointmentDto[] = [
+    { date: "10/03/2025", time: "09:00", userId: 1, reason: "Loan Application" },
+    { date: "15/04/2025", time: "14:30", userId: 2, reason: "Credit Card Request" },
+    { date: "20/05/2025", time: "11:00", userId: 3, reason: "Investment Advisory" },
+    { date: "05/06/2025", time: "16:45", userId: 4, reason: "Fraud Report" },
+    { date: "12/07/2025", time: "08:15", userId: 1, reason: "Document Submission" },
+    { date: "22/08/2025", time: "13:00", userId: 2, reason: "Banking Assistance" },
+    { date: "30/09/2025", time: "10:30", userId: 3, reason: "Check Deposit Issue" },
+    { date: "18/10/2025", time: "17:20", userId: 4, reason: "Transaction Dispute" },
+    { date: "25/11/2025", time: "15:45", userId: 3, reason: "Foreign Currency Exchange" },
+    { date: "05/12/2025", time: "12:00", userId: 4, reason: "Debit Card Replacement" }
+];
 
 const preloadAppointments = async () => {
     const queryRunner = AppDataSource.createQueryRunner();
