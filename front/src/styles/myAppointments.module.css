@@ -1,0 +1,30 @@
+.firstRow {
+    background-color: #1B3A57;
+    display: flex;
+    height: 2em;
+    border-radius: 10px 10px 0px 0px;
+}
+
+.myList {
+    background-color: #1B3A57;
+    border-radius: 0px 0px 10px 10px;
+    border-top: 1px solid #08192D;
+}
+
+.status {
+    height: 100%;
+    width: 15vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-left: 1px solid #08192D;
+}
+
+.data {
+    height: 100%;
+    width: 35vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-left: 1px solid #08192D;
+}

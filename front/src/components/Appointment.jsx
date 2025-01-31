@@ -1,11 +1,13 @@
-const Appointment = ({id, date, time, status}) => {
+const Appointment = ({date, time, reason, status}) => {
     return(
-        <div key={id}>
+        <div>
             <div>
                 <p>{status}</p>
             </div>
             <div>
-                <p>{date} {time}</p>
+                <p>{date}</p>
+                <p>{time}</p>
+                <p>{reason}</p>
             </div>
             <div>
                 <button>Cancel</button>

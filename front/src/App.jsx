@@ -6,8 +6,10 @@ function App() {
   return (
     <>
       <Navbar />
-      <Home />
-      <MyAppointments />
+      <main>
+        {/* <Home /> */}
+        <MyAppointments />
+      </main>
     </>
   )
 }
