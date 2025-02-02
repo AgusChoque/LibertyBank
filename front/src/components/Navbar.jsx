@@ -1,6 +1,7 @@
 import { myNavbar, navLogo, navViews, navUser, myViews } from "../styles/NavBar.module.css"
 import NavUser from "./NavUser";
 import ButtonPad from "./ButtonPad";
+import { Link } from "react-router-dom";
 
 const Navbar = ({isLogged}) => {
     return(
@@ -10,12 +11,9 @@ const Navbar = ({isLogged}) => {
             </div>
             <div className={navViews}>
                 <h1>Liberty Bank</h1>
-                <nav>
-                    <ul className={myViews}>
-                        <li>Home</li>
-                        <li>My Appointments</li>
-                        <li>Prueba 3</li>
-                    </ul>
+                <nav className={myViews} >
+                    <Link to="/" >Home</Link>
+                    <Link to="/my-appointments" >My Appointments</Link>
                 </nav>
             </div>
             <div className={navUser}>
