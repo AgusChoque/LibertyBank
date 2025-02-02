@@ -20,7 +20,7 @@
     border-left: 1px solid #08192D;
 }
 
-.data {
+.content {
     height: 100%;
     width: 35vw;
     display: flex;

@@ -11,7 +11,7 @@ const formatUserRegister = async (req: Request, res: Response, next: NextFunctio
     const { name, email, birthdate, nDni, credentials } = req.body;
 
     //Validations for name.
-    if(name.length > 50 || name.length < 10) next(new DataError(400, "The name must be between 10 and 50 characters."));
+    if(name.length > 50 || name.length < 8) next(new DataError(400, "The name must be between 8 and 50 characters."));
 
     //Validations for email.
     if (!isValidEmail(email)) next(new DataError(400, "The email is invalid."));
@@ -84,7 +84,7 @@ const formatUserRegister = async (req: Request, res: Response, next: NextFunctio
     //Validations for username.
     const username = credentials.username;
     const splitUsername: string[] = username.split("");
-    if(splitUsername.length < 5 || splitUsername.length > 25) next(new DataError(400, "Username must be between 5 and 25 characters."));
+    if(splitUsername.length < 5) next(new DataError(400, "Username must be at least 5 characters."));
 
     const noSpaces: string[] = splitUsername.filter((char) => {
         if(char === " ") return char;
@@ -98,7 +98,7 @@ const formatUserRegister = async (req: Request, res: Response, next: NextFunctio
     const password = credentials.password;
     if (password.length < 8) next(new DataError(400, "The password mustn't be less than 8 characters."));
 
-    if (isValidPassword(password)) throw new DataError(400, "The password must contain at least one lowercase letter, one uppercase letter, one number, and one special character.")
+    if (!isValidPassword(password)) throw new DataError(400, "The password must contain at least one lowercase letter, one uppercase letter, one number, and one special character.")
 
     next();
 };
