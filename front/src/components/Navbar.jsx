@@ -2,8 +2,12 @@ import { myNavbar, navLogo, navViews, navUser, myViews } from "../styles/NavBar.
 import NavUser from "./NavUser";
 import ButtonPad from "./ButtonPad";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { UserContext } from "../contexts/UserContext";
 
-const Navbar = ({isLogged}) => {
+const Navbar = () => {
+    const { user } = useContext(UserContext);
+
     return(
         <header className={myNavbar}>
             <div className={navLogo}>
@@ -13,11 +17,12 @@ const Navbar = ({isLogged}) => {
                 <h1>Liberty Bank</h1>
                 <nav className={myViews} >
                     <Link to="/" >Home</Link>
-                    <Link to="/my-appointments" >My Appointments</Link>
+                    <Link to="/my-appointments" aria-disabled={user.id ? false : true} >My Appointments</Link>
                 </nav>
             </div>
+
             <div className={navUser}>
-                {isLogged ? <NavUser /> : <ButtonPad />}
+                {user.id ? <NavUser /> : <ButtonPad />}
             </div>
         </header>
     );

@@ -1,8 +1,10 @@
+import { Link } from "react-router-dom";
+
 const ButtonPad = () => {
     return(
         <>
-        <button>Register</button>
-        <button>Login</button>
+        <Link to="/register" >Register</Link>
+        <Link to="/login" >Login</Link>
         </>
     )
 };

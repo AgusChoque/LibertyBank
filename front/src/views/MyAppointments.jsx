@@ -1,8 +1,18 @@
-import { Suspense } from "react";
+import { Suspense, useContext, useEffect } from "react";
 import { myList, firstRow, status, content } from "../styles/myAppointments.module.css";
 import LazyAppointmentsLoader from "../components/LazyAppointmentsLoader";
+import { UserContext } from "../contexts/UserContext";
+import { useNavigate } from "react-router-dom"
 
 const MyAppointments = () => {
+    const {user, setUserAppointments} = useContext(UserContext);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!user.id) navigate("/");
+        
+    })
+
     return (
         <div className="container">
             <h2>My Appointments</h2>

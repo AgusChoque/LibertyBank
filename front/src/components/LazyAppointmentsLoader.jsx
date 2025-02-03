@@ -7,10 +7,11 @@ const LazyAppointmentsLoader = () => {
     return (
         <>
         {
-            error ? (<h3>{error}</h3>) :
+            error ? (<p>{error}</p>) :
             (data?.map((appointment)=>{
                 return <Appointment
                 key={appointment.id}
+                id={appointment.id}
                 date={appointment.date}
                 time={appointment.time}
                 reason={appointment.reason}
