@@ -32,6 +32,13 @@ const usersData: UserDto[] = [
         birthdate: "10/01/1980",
         nDni: 45678901,
         credentialId: 4
+    },
+    {
+        name: "Agustin Choque",
+        email: "agus@admin.com",
+        birthdate: "27/11/2001",
+        nDni: 43430430,
+        credentialId: 5
     }
 ];
 

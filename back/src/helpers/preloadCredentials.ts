@@ -4,22 +4,26 @@ import CredentialRepository from "../repositories/CredentialRepository";
 
 const credentialData: CredentialDto[] = [
   {
-    username: "john_doe",
-    password: "securePass123"
+      username: "john.doe@example.com",
+      password: "John@1234"
   },
   {
-    username: "alice_smith",
-    password: "myPassword456"
+      username: "alice.smith@example.com",
+      password: "Alice#5678"
   },
   {
-    username: "michael_jones",
-    password: "pass123word!"
+      username: "michael.jones@example.com",
+      password: "Michael$910"
   },
   {
-    username: "sarah_connor",
-    password: "t3rminat0r"
+      username: "sarah.connor@example.com",
+      password: "Sarah*1122"
+  },
+  {
+    username: "aguscho",
+    password: "Admin123."
   }
-];
+]
 
 const preloadCredentials = async () => {
     await AppDataSource.transaction(async (transactionalEntityManager) => {

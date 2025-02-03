@@ -1,14 +1,21 @@
-import useAxiosAppointment from "../hooks/useAxiosAppointment.js";
+import { useContext, useEffect } from "react";
 import Appointment from "../components/Appointment";
+import { UserContext } from "../contexts/UserContext";
+import { useNavigate } from "react-router-dom";
 
 const LazyAppointmentsLoader = () => {
-    const { data, error } = useAxiosAppointment("appointments");
+    const { user, userAppointments } = useContext(UserContext);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!user.id) navigate("/");
+    }, [user.id]);
 
     return (
         <>
         {
-            error ? (<p>{error}</p>) :
-            (data?.map((appointment)=>{
+            !userAppointments.length ? (<p>There are no appointments yet.</p>) :
+            (userAppointments.map((appointment)=>{
                 return <Appointment
                 key={appointment.id}
                 id={appointment.id}

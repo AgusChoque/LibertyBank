@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getAppointments, getAppointmentById, scheduleAppointment, cancelAppointment } from '../services/apiAppointmentService';
+import { getAppointments, getAppointmentById, scheduleAppointment, cancelAppointment, getByUserId } from '../services/apiAppointmentService';
 
 const useAxiosAppointment = (endpoint, toSend = null) => {
     const [data, setData] = useState(null);
@@ -40,11 +40,18 @@ const useAxiosAppointment = (endpoint, toSend = null) => {
                         setError(error);
                     };
                     break;
+                case "appointments by user":
+                    try {
+                        const appointments = await getByUserId(toSend);
+                        setData(appointments);
+                    } catch (error) {
+                        setError(error);
+                    };
             };
         };
 
         fetchData();
-    }, [endpoint]);
+    }, [endpoint,toSend]);
     return { data, error };
 };
 

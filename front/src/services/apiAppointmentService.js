@@ -35,3 +35,12 @@ export const cancelAppointment = async (id) => {
         throw Error(`Error canceling the appointment: ${error.response.data.error}`);
     }
 }
+
+export const getByUserId = async (id) => {
+    try {
+        const response = await apiService.get(`/appointments/user/${id}`);
+        return response.data.data;
+    } catch (error) {
+        throw Error(`Error trying to get appointments: ${error.response.data.error}`)
+    }
+}

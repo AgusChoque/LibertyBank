@@ -5,6 +5,7 @@ import { Appointment, appointmentStatus } from "../entities/Appointment";
 import DataError from "../errors/dataError";
 import transporter from "../config/transporter";
 import { EmailDto } from "../dto/EmailDto";
+import { User } from "../entities/User";
 
 //Return all appointments.
 export const getAppointmentsService = async (): Promise<Appointment[]> => {
@@ -22,6 +23,14 @@ export const getAppointmentByIdService = async (id: number): Promise<Appointment
     const appointment: Appointment = await AppointmentRepository.findById(id, true);
     return appointment;
 };
+
+//Return array of appointments from 1 user.
+export const getAppointmetsByUserIdService = async (id: number): Promise<Appointment[]> => {
+    const user: User = await UserRepository.findById(id);
+    if(!user) throw new DataError(404, "User not found.");
+    const appointments: Appointment[] = await AppointmentRepository.findByUser(id);
+    return appointments;
+}
 
 //Create appointment and return it.
 export const setAppointmentService = async ({date, time, reason, userId}: AppointmentDto): Promise<Appointment> => {

@@ -17,7 +17,7 @@ const Navbar = () => {
                 <h1>Liberty Bank</h1>
                 <nav className={myViews} >
                     <Link to="/" >Home</Link>
-                    <Link to="/my-appointments" aria-disabled={user.id ? false : true} >My Appointments</Link>
+                    <Link to="/my-appointments">My Appointments</Link>
                 </nav>
             </div>
 

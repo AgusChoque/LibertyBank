@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getAppointments, getAppointmentById, createAppointment, cancelAppointment } from "../controllers/appointmentsController";
+import { getAppointments, getAppointmentById, createAppointment, cancelAppointment, getAppointmentsByUserId } from "../controllers/appointmentsController";
 import paramIdValidate from "../middleware/paramIdValidate";
 import validAppointment from "../middleware/validAppointment";
 import formatAppointment from "../middleware/formatAppointment";
@@ -9,6 +9,7 @@ const appointmentsRouter: Router = Router();
 
 appointmentsRouter.get("/", getAppointments);
 appointmentsRouter.get("/:id", paramIdValidate, getAppointmentById);
+appointmentsRouter.get("/user/:id", paramIdValidate, getAppointmentsByUserId);
 
 appointmentsRouter.post("/schedule", validAppointment, formatAppointment, createAppointment);
 

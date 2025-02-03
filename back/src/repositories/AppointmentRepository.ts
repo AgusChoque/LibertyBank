@@ -15,6 +15,15 @@ const AppointmentRepository = AppDataSource.getRepository(Appointment).extend({
         if (!appointment) throw new DataError(404, `The appointment with ID ${id} does not exist.`)
         return appointment
     },
+    findByUser: async function (id: number) {
+      const appointments: Appointment[] = await AppointmentRepository.findBy({
+        user: {
+            id: id,
+        },
+      });
+      if (!appointments) throw new DataError(404, "There are no appointments yet.");
+      return appointments;
+    },
 });
 
 export default AppointmentRepository;

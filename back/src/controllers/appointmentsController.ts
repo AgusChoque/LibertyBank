@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { cancelAppointmentService, getAppointmentByIdService, getAppointmentsService, sendMailService, setAppointmentService } from "../services/appointmentService";
+import { cancelAppointmentService, getAppointmentByIdService, getAppointmentsService, sendMailService, setAppointmentService, getAppointmetsByUserIdService } from "../services/appointmentService";
 import { Appointment } from "../entities/Appointment";
 import catchAsync from "../utils/catchAsync";
 import { action, subject } from "../dto/EmailDto";
@@ -17,6 +17,14 @@ const getAppointmentByIdController = async (req: Request, res: Response) => {
     res.status(200).json({
         message: "Appointment found successfully.",
         data: appointment
+    });
+};
+
+const getAppointmentsByUserIdController = async (req: Request, res: Response) => {
+    const appointments: Appointment[] = await getAppointmetsByUserIdService(Number(req.params.id));
+    res.status(200).json({
+        message: "Appointments found successfully.",
+        data: appointments,
     });
 };
 
@@ -58,3 +66,4 @@ export const getAppointments = catchAsync(getAppointmentsController);
 export const getAppointmentById = catchAsync(getAppointmentByIdController);
 export const createAppointment = catchAsync(createAppointmentController);
 export const cancelAppointment = catchAsync(cancelAppointmentController);
+export const getAppointmentsByUserId = catchAsync(getAppointmentsByUserIdController);

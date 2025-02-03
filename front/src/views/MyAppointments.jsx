@@ -2,16 +2,15 @@ import { Suspense, useContext, useEffect } from "react";
 import { myList, firstRow, status, content } from "../styles/myAppointments.module.css";
 import LazyAppointmentsLoader from "../components/LazyAppointmentsLoader";
 import { UserContext } from "../contexts/UserContext";
-import { useNavigate } from "react-router-dom"
+import useAxiosAppointment from "../hooks/useAxiosAppointment";
 
 const MyAppointments = () => {
     const {user, setUserAppointments} = useContext(UserContext);
-    const navigate = useNavigate();
+    const { data } = useAxiosAppointment("appointments by user", user.id ?? 0);
 
     useEffect(() => {
-        if (!user.id) navigate("/");
-        
-    })
+        if(data) setUserAppointments(data)
+    }, [data])
 
     return (
         <div className="container">
