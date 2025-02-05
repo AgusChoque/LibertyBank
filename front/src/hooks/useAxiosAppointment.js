@@ -4,7 +4,7 @@ import { getAppointments, getAppointmentById, scheduleAppointment, cancelAppoint
 const useAxiosAppointment = (endpoint, initialToSend = null) => {
     const [data, setData] = useState(null);
     const [error, setError] = useState(null);
-    const [toSend, setToSend] = useState(initialToSend);
+    const [ toSend ] = useState(initialToSend);
 
     const fetchData = async (customToSend = toSend) => {
         if (!customToSend && ["appointment id", "schedule", "cancel", "appointments by user"].includes(endpoint)) return;
@@ -40,7 +40,6 @@ const useAxiosAppointment = (endpoint, initialToSend = null) => {
     }, [endpoint,toSend]);
     
     return { data, error, refetch: async (newToSend) => {
-        setToSend(newToSend);
         await fetchData(newToSend);
     } };
 };

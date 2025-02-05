@@ -10,12 +10,12 @@ const formatAppointment = async (req: Request, res: Response, next: NextFunction
     if (!Number.isInteger(userId)) next(new DataError(400, "The user ID must be an integer."));
 
     //Validations for date.
-    const split: string[] = date.split("/");
+    const split: string[] = date.split("-");
     const dateFinal: number[] = split.map((num) => Number(num));
 
-    if(dateFinal.length !== 3) next(new DataError(400, "The date format is incorrect. Try DD/MM/YYYY"));
+    if(dateFinal.length !== 3) next(new DataError(400, "The date format is incorrect. Try YYYY/MM/DD"));
     
-    const [day, month, year] = dateFinal;
+    const [year, month, day] = dateFinal;
     const errorNumber: string[] = [];
 
     //Validate if every field is a number.

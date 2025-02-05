@@ -4,6 +4,7 @@ import MyAppointments from "./views/MyAppointments";
 import Register from "./views/Register";
 import Login from "./views/Login";
 import { Routes, Route, useLocation } from "react-router-dom";
+import Schedule from "./views/Schedule";
 
 function App() {
   const location = useLocation();
@@ -17,6 +18,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/my-appointments" element={<MyAppointments />} />
+          <Route path="/schedule" element={<Schedule />} />
         </Routes>
       </main>
     </>

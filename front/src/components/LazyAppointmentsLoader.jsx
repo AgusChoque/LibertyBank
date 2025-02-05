@@ -10,12 +10,16 @@ const LazyAppointmentsLoader = () => {
     useEffect(() => {
         if (!user.id) navigate("/");
     }, [user.id]);
+    
+    const actives = userAppointments.filter(appointment => {
+        if (appointment.status === "active") return appointment
+    });
 
     return (
         <>
         {
-            !userAppointments.length ? (<p>There are no appointments yet.</p>) :
-            (userAppointments.map((appointment)=>{
+            !actives.length ? (<p>There are no actives appointments yet, try scheduling one.</p>) :
+            (actives.map((appointment)=>{
                 return <Appointment
                 key={appointment.id}
                 id={appointment.id}

@@ -3,6 +3,7 @@ import { myList, firstRow, status, content } from "../styles/myAppointments.modu
 import LazyAppointmentsLoader from "../components/LazyAppointmentsLoader";
 import { UserContext } from "../contexts/UserContext";
 import useAxiosAppointment from "../hooks/useAxiosAppointment";
+import { Link } from "react-router-dom";
 
 const MyAppointments = () => {
     const {user, setUserAppointments, setRefetchAppointments} = useContext(UserContext);
@@ -19,6 +20,7 @@ const MyAppointments = () => {
     return (
         <div className="container">
             <h2>My Appointments</h2>
+            <Link to="/schedule" >Add a new appointment</Link>
             <ul className={firstRow}>
                 <li className={status}>Status</li>
                 <li className={content}>Date</li>
