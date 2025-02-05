@@ -17,7 +17,11 @@ const Navbar = () => {
                 <h1>Liberty Bank</h1>
                 <nav className={myViews} >
                     <Link to="/" >Home</Link>
-                    <Link to="/my-appointments">My Appointments</Link>
+                    {
+                        user.id
+                        ? <Link to="/my-appointments">My Appointments</Link>
+                        : <span>My Appointments</span>
+                    }
                 </nav>
             </div>
 

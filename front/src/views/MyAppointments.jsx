@@ -5,12 +5,16 @@ import { UserContext } from "../contexts/UserContext";
 import useAxiosAppointment from "../hooks/useAxiosAppointment";
 
 const MyAppointments = () => {
-    const {user, setUserAppointments} = useContext(UserContext);
-    const { data } = useAxiosAppointment("appointments by user", user.id ?? 0);
+    const {user, setUserAppointments, setRefetchAppointments} = useContext(UserContext);
+    const { data, refetch } = useAxiosAppointment("appointments by user", user.id ?? 0);
 
     useEffect(() => {
         if(data) setUserAppointments(data)
-    }, [data])
+    }, [data]);
+
+    useEffect(() => {
+        setRefetchAppointments(() => refetch);
+    }, []);
 
     return (
         <div className="container">

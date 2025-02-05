@@ -1,13 +1,18 @@
-import axios from "axios";
+import { useContext } from "react";
+import { UserContext } from "../contexts/UserContext";
+import useAxiosAppointment from "../hooks/useAxiosAppointment";
 
 const Appointment = ({id, date, time, reason, status}) => {
+    const { refetchAppointments } = useContext(UserContext);
+    const { refetch } = useAxiosAppointment("cancel", 0);
+
     const handleCancel = async () => {
         try {
-            console.log(id)
-            const res = await axios.put(`http://localhost:3000/appointments/cancel/${id}`);
+            await refetch(id)
+            refetchAppointments();
         } catch (error) {
             console.log(error);
-        }
+        };
     };
 
     return(
@@ -21,7 +26,9 @@ const Appointment = ({id, date, time, reason, status}) => {
                 <p>{reason}</p>
             </div>
             <div>
-                <button onClick={handleCancel} >Cancel</button>
+                {status === "active" 
+                ? <button onClick={handleCancel} >Cancel</button> 
+                : <></>}
             </div>
         </div>
     );

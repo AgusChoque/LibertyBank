@@ -1,58 +1,48 @@
 import { useState, useEffect } from 'react';
 import { getAppointments, getAppointmentById, scheduleAppointment, cancelAppointment, getByUserId } from '../services/apiAppointmentService';
 
-const useAxiosAppointment = (endpoint, toSend = null) => {
+const useAxiosAppointment = (endpoint, initialToSend = null) => {
     const [data, setData] = useState(null);
     const [error, setError] = useState(null);
+    const [toSend, setToSend] = useState(initialToSend);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            switch(endpoint) {
+    const fetchData = async (customToSend = toSend) => {
+        if (!customToSend && ["appointment id", "schedule", "cancel", "appointments by user"].includes(endpoint)) return;
+        try {
+            let result;
+            switch (endpoint) {
                 case "appointments":
-                    try {
-                        const appointments = await getAppointments();
-                        setData(appointments);
-                    } catch (error) {
-                        setError(error);
-                    };
+                    result = await getAppointments();
                     break;
                 case "appointment id":
-                    try {
-                        const appointment = await getAppointmentById(toSend);
-                        setData(appointment);
-                    } catch (error) {
-                        setError(error);
-                    };
+                    result = await getAppointmentById(customToSend);
                     break;
                 case "schedule":
-                    try {
-                        const schedule = await scheduleAppointment(toSend);
-                        setData(schedule);
-                    } catch (error) {
-                        setError(error);
-                    };
+                    result = await scheduleAppointment(customToSend);
                     break;
                 case "cancel":
-                    try {
-                        const cancel = await cancelAppointment(toSend);
-                        setData(cancel);
-                    } catch (error) {
-                        setError(error);
-                    };
+                    result = await cancelAppointment(customToSend);
                     break;
                 case "appointments by user":
-                    try {
-                        const appointments = await getByUserId(toSend);
-                        setData(appointments);
-                    } catch (error) {
-                        setError(error);
-                    };
+                    result = await getByUserId(customToSend);
+                    break;
+                default:
+                    throw new Error("Invalid Endpoint");
             };
+            setData(result);
+        } catch (error) {
+            setError(error);
         };
+    };
 
-        fetchData();
+    useEffect(() => {
+        if (endpoint === "appointments" || toSend !== null) fetchData();
     }, [endpoint,toSend]);
-    return { data, error };
+    
+    return { data, error, refetch: async (newToSend) => {
+        setToSend(newToSend);
+        await fetchData(newToSend);
+    } };
 };
 
 export default useAxiosAppointment;

@@ -4,18 +4,23 @@ export const UserContext = createContext({
     user: {},
     setUser: () => {},
     userAppointments: [],
-    setUserAppointments: () => {}
+    setUserAppointments: () => {},
+    refetchAppointments: () => {},
+    setRefetchAppointments: () => {}
 });
 
 export const UserProvider = ({children}) => {
     const [user, setUser] = useState({});
     const [userAppointments, setUserAppointments] = useState([]);
+    const [refetchAppointments, setRefetchAppointments] = useState(() => () => {})
 
     const value = {
         user,
         setUser,
         userAppointments,
-        setUserAppointments
+        setUserAppointments,
+        refetchAppointments,
+        setRefetchAppointments
     };
 
     return(
