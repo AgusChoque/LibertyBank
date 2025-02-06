@@ -52,11 +52,28 @@
     font-size: 1.25em;
 }
 
-.myButton {
+.myButtonSchedule {
     transition: color ease 0.3s, transform ease 0.3s;
 }
 
-.myButton:hover {
+.myButtonSchedule:hover {
     color: #E6AF2E;
     transform: scale(1.1);
+}
+
+.myButtonCancelled {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: color ease 0.3s, transform ease 0.3s;
+    width: 6em;
+}
+
+.myButtonCancelled:hover {
+    color: #E6AF2E;
+    transform: scale(1.1);
+}
+
+.disabled {
+    display: none;
 }

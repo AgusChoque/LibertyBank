@@ -4,7 +4,7 @@ import { UserContext } from "../contexts/UserContext";
 import { useNavigate } from "react-router-dom";
 import { noAppoint } from "../styles/LazyAppointmentsLoader.module.css";
 
-const LazyAppointmentsLoader = () => {
+const LazyAppointmentsLoader = ({status}) => {
     const { user, userAppointments } = useContext(UserContext);
     const navigate = useNavigate();
 
@@ -12,15 +12,15 @@ const LazyAppointmentsLoader = () => {
         if (!user.id) navigate("/");
     }, [user.id]);
     
-    const actives = userAppointments.filter(appointment => {
-        if (appointment.status === "active") return appointment
+    const appointments = userAppointments.filter(appointment => {
+        if (appointment.status === status) return appointment;
     });
 
     return (
         <>
         {
-            !actives.length ? (<p className={noAppoint}>There are no actives appointments yet, try scheduling one.</p>) :
-            (actives.map((appointment)=>{
+            !appointments.length ? (<p className={noAppoint}>There are no actives appointments yet, try scheduling one.</p>) :
+            (appointments.map((appointment)=>{
                 return <Appointment
                 key={appointment.id}
                 id={appointment.id}
