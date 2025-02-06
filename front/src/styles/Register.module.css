@@ -1,0 +1,25 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 50em;
+    margin: auto;
+    align-items: center;
+    justify-content: center;
+}
+
+.centered {
+    background-color: #172c49;
+    border: 1px solid #4A4A4A;
+    border-radius: 15px;
+    padding: 2em;
+    min-width: 50em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
+}
+
+.highlight {
+    color: #E6AF2E;
+}

@@ -1,0 +1,51 @@
+.myForm {
+    display: flex;
+    flex-direction: column;
+    width: 25em;
+    gap: .75em;
+}
+
+.myField {
+    display: flex;
+    flex-direction: column;
+    gap: .2em;
+}
+
+.myInput {
+    background-color: #172c49;
+    padding: 0.6em;
+    border-radius: 10px;
+    border: 1px solid #4A4A4A;
+    transition: border ease .2s;
+}
+
+.myInput:focus {
+    border: 2px solid #E6AF2E;
+}
+
+.myButton {
+    background-color: #E6AF2E;
+    color: #816219;
+    padding: .7em;
+    border-radius: 10px;
+    transition: background-color ease .3s;
+    margin-top: .75em;
+}
+
+.myButton:hover {
+    background-color: #e0c88e;
+}
+
+.myButton:disabled {
+    background-color: #172c49;
+    cursor: default;
+    color: #4A4A4A;
+}
+
+.custom {
+    color: #D72638;
+}
+
+.myLabel {
+    margin-left: .75em;
+}

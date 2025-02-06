@@ -21,12 +21,12 @@ const formatUserRegister = async (req: Request, res: Response, next: NextFunctio
     if(email.length > 100) next(new DataError(400, "The email must be less than 100 characters."));
 
     //Validations for birthdate.
-    const split: string[] = birthdate.split("/");
+    const split: string[] = birthdate.split("-");
     const date: number[] = split.map(Number);
 
     if(date.length !== 3) next(new DataError(400, "The birthdate format is incorrect. Try DD/MM/YYYY"));
     
-    const [day, month, year] = date;
+    const [year, month, day] = date;
     const errorNumber: string[] = [];
 
     //Validate if every field is a number.

@@ -5,14 +5,16 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import validateSchedule from "../helpers/validateSchedule";
 import useAxiosAppointment from "../hooks/useAxiosAppointment";
 
-const ScheduleForm = () => {
-    const { user } = useContext(UserContext);
+const Schedule = ({ setShowForm }) => {
+    const { user, refetchAppointments } = useContext(UserContext);
     const navigate = useNavigate();
     const { refetch } = useAxiosAppointment("schedule", null)
 
-    const handleOnSubmit = ({date, time, subject}) => {
+    const handleOnSubmit = async ({date, time, subject}) => {
+        setShowForm(false);
         const appointment = {date, time, reason: subject, userId: user.id};
-        refetch(appointment);
+        await refetch(appointment);
+        refetchAppointments();
     };
 
     useEffect(() => {
@@ -31,11 +33,12 @@ const ScheduleForm = () => {
                 <ErrorMessage name="date" />
 
                 <label>Time</label>
-                <Field type="time" name="time" min="8:00" max="18:00" step={900} />
+                <Field type="time" name="time" />
                 <ErrorMessage name="time" />
 
                 <label>Subject</label>
                 <Field as="select" name="subject" >
+                    <option value="Default">Select one</option>
                     <option value="Mortgage Inquiry">Mortgage Inquiry</option>
                     <option value="Loan Application">Loan Application</option>
                     <option value="Credit Card Request">Credit Card Request</option>
@@ -58,4 +61,4 @@ const ScheduleForm = () => {
     );
 };
 
-export default ScheduleForm;
+export default Schedule;
