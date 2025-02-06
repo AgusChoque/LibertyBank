@@ -10,7 +10,7 @@ const validateSchedule = ({date, time, subject}) => {
     dateMax.setFullYear(dateMax.getFullYear() + 1);
     dateMin.setDate(dateMin.getDate() + 1);
     if(newDate < dateMin || newDate > dateMax) errors.date = "It must be a date between tomorrow and one year";
-    if (newDate.getDay() === 0 || newDate.getDay() === 6) errors.date = "Mustn't be scheduled on a weekend"
+    if (newDate.getDay() === 5 || newDate.getDay() === 6) errors.date = "Mustn't be scheduled on a weekend"
 
     //Validate time.
     if(!time) errors.time = "It's required";

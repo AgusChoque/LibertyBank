@@ -4,6 +4,7 @@ import axios from "axios";
 import {useNavigate} from "react-router-dom"
 import { useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
+import { myForm, myField, myInput, myButton } from "../styles/MyForm.module.css";
 
 const MyLoginForm = () => {
     const navigate = useNavigate();
@@ -27,18 +28,24 @@ const MyLoginForm = () => {
             initialValues={{username:"", password:""}}
             validate={validateLogin}
             onSubmit={handleOnSubmit} >
-            <Form>
-                <label>Username</label>
-                <Field type = "text" name = "username" placeholder = "" />
+        {({values}) => (
+            <Form className={myForm}>
+                <div className={myField}>
+                <Field type = "text" name = "username" placeholder = "Username" className={myInput} />
                 <ErrorMessage name="username" />
+                </div>
 
-                <label>Password</label>
-                <Field type = "password" name = "password" placeholder = "" />
+                <div className={myField}>
+                <Field type = "password" name = "password" placeholder = "Password" className={myInput} />
                 <ErrorMessage name="password" />
+                </div>
 
-                <button type="submit" >Submit</button>
+                <button type="submit" className={myButton} disabled={ !values.username || !values.password } >
+                    Log in
+                </button>
 
             </Form>
+        )}
         </Formik>
     );
 };

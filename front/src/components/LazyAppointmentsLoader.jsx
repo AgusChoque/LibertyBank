@@ -2,6 +2,7 @@ import { useContext, useEffect } from "react";
 import Appointment from "../components/Appointment";
 import { UserContext } from "../contexts/UserContext";
 import { useNavigate } from "react-router-dom";
+import { noAppoint } from "../styles/LazyAppointmentsLoader.module.css";
 
 const LazyAppointmentsLoader = () => {
     const { user, userAppointments } = useContext(UserContext);
@@ -18,7 +19,7 @@ const LazyAppointmentsLoader = () => {
     return (
         <>
         {
-            !actives.length ? (<p>There are no actives appointments yet, try scheduling one.</p>) :
+            !actives.length ? (<p className={noAppoint}>There are no actives appointments yet, try scheduling one.</p>) :
             (actives.map((appointment)=>{
                 return <Appointment
                 key={appointment.id}

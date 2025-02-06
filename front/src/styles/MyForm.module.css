@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     width: 25em;
-    gap: .75em;
+    gap: 1.5em;
 }
 
 .myField {
@@ -15,7 +15,7 @@
     background-color: #172c49;
     padding: 0.6em;
     border-radius: 10px;
-    border: 1px solid #4A4A4A;
+    border: 1px solid #4a4a4ac4;
     transition: border ease .2s;
 }
 
@@ -24,8 +24,8 @@
 }
 
 .myButton {
-    background-color: #E6AF2E;
-    color: #816219;
+    background-color: #F5F1E3;
+    color: #4e4c48;
     padding: .7em;
     border-radius: 10px;
     transition: background-color ease .3s;
@@ -33,7 +33,7 @@
 }
 
 .myButton:hover {
-    background-color: #e0c88e;
+    background-color: #adaca6;
 }
 
 .myButton:disabled {
@@ -45,6 +45,7 @@
 .custom {
     color: #D72638;
 }
+
 
 .myLabel {
     margin-left: .75em;

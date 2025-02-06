@@ -1,5 +1,5 @@
 import { Suspense, useContext, useEffect, useState } from "react";
-import { myList, firstRow, status, content } from "../styles/myAppointments.module.css";
+import { container, myIntro, myList, myAppointments, small, medium, large, subtitle, myButton } from "../styles/myAppointments.module.css";
 import LazyAppointmentsLoader from "../components/LazyAppointmentsLoader";
 import { UserContext } from "../contexts/UserContext";
 import useAxiosAppointment from "../hooks/useAxiosAppointment";
@@ -23,16 +23,19 @@ const MyAppointments = () => {
     }, []);
 
     return (
-        <div className="container">
-            <h2>My Appointments</h2>
-            <button type="buton" onClick={handleOnClick} >+ Schedule appointment</button>
-            <ul className={firstRow}>
-                <li className={status}>Status</li>
-                <li className={content}>Date</li>
-                <li className={content}>Time</li>
-                <li className={status}>Action</li>
+        <div className={container}>
+            <div className={myIntro}>
+                <h2 className={subtitle}>My Appointments</h2>
+                <button type="buton" onClick={handleOnClick} className={myButton} >+ Schedule appointment</button>
+            </div>
+            <ul className={myList}>
+                <li className={small}>Status</li>
+                <li className={medium}>Date</li>
+                <li className={medium}>Time</li>
+                <li className={large}>Subject</li>
+                <li className={medium}>Action</li>
             </ul>
-            <div className={myList}>
+            <div className={myAppointments}>
                 <Suspense fallback={<div>Loading...</div>}>
                     <LazyAppointmentsLoader />
                 </Suspense>

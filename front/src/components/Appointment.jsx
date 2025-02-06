@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
 import useAxiosAppointment from "../hooks/useAxiosAppointment";
+import { myAppointment, small, medium, large, borderBottom, active, cancelled, myButon } from "../styles/Appointment.module.css";
 
 const Appointment = ({id, date, time, reason, status}) => {
     const { refetchAppointments } = useContext(UserContext);
@@ -16,21 +17,22 @@ const Appointment = ({id, date, time, reason, status}) => {
     };
 
     return(
-        <div>
-            <div>
-                <p>{status}</p>
+        <>
+        <div className={myAppointment}>
+            <div className={small}>
+                <div className={status === "active" ? active : cancelled}></div>
             </div>
-            <div>
-                <p>{date}</p>
-                <p>{time}</p>
-                <p>{reason}</p>
-            </div>
-            <div>
+            <p className={medium}>{date}</p>
+            <p className={medium}>{time}</p>
+            <p className={large}>{reason}</p>
+            <div className={medium}>
                 {status === "active" 
-                ? <button onClick={handleCancel} >Cancel</button> 
+                ? <button onClick={handleCancel} className={myButon} >Cancel</button> 
                 : <></>}
             </div>
         </div>
+        <div className={borderBottom}></div>
+        </>
     );
 };
 

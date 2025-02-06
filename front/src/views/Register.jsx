@@ -1,6 +1,6 @@
 import MyRegisterForm from "../components/MyRegisterForm";
 import { Link } from "react-router-dom";
-import { container, centered, highlight } from "../styles/Register.module.css";
+import { container, centered, highlight } from "../styles/RegisterAndLogin.module.css";
 
 const Register = () => {
     return(
