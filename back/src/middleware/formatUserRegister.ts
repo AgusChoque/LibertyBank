@@ -74,6 +74,7 @@ const formatUserRegister = async (req: Request, res: Response, next: NextFunctio
     if(month === 2 && day > 28) next(new DataError(400, "The day must be between 1 and 28."));
     if((month === 1 || 3 || 5 || 7 || 8 || 10 || 12 ) && day > 31) next(new DataError(400, "The day must be between 1 and 31."));
     if((month === 4 || 6 || 9 || 11) && day > 30) next(new DataError(400, "The day must be between 1 and 30.")); 
+    req.body.birthdate = `${day}/${month}/${year}`
 
     //Validations for nDni.
     if(nDni < 20000000 || nDni > 50000000) next(new DataError(400, "The nDni must be between 20M and 50M."));

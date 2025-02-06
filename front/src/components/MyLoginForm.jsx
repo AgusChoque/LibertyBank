@@ -4,21 +4,22 @@ import axios from "axios";
 import {useNavigate} from "react-router-dom"
 import { useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
-import { myForm, myField, myInput, myButton } from "../styles/MyForm.module.css";
+import { myForm, myField, myInput, myButton, myError } from "../styles/MyForm.module.css";
+import useAlert from "../hooks/useAlert";
 
 const MyLoginForm = () => {
     const navigate = useNavigate();
-
+    const {showAlert } = useAlert();
     const {setUser} = useContext(UserContext);
 
     const handleOnSubmit = async (values) => {
         try {
             const res = await axios.post("http://localhost:3000/users/login", values);
-            res.data.login ? alert("User loged succesfully.") : alert("User not found.");
+            res.data.login && showAlert("Done", "User loged succesfully", "success");
             setUser(res.data.user);
             navigate("/");
         } catch (err) {
-            alert("Error: "+ err.response.data.error);
+            showAlert("Error", err.response.data.error, "error");
         }
         
     };
@@ -31,13 +32,17 @@ const MyLoginForm = () => {
         {({values}) => (
             <Form className={myForm}>
                 <div className={myField}>
-                <Field type = "text" name = "username" placeholder = "Username" className={myInput} />
-                <ErrorMessage name="username" />
+                    <Field type = "text" name = "username" placeholder = "Username" className={myInput} />
+                    <div className={myError}>
+                        <ErrorMessage name="username" />
+                    </div>
                 </div>
 
                 <div className={myField}>
-                <Field type = "password" name = "password" placeholder = "Password" className={myInput} />
-                <ErrorMessage name="password" />
+                    <Field type = "password" name = "password" placeholder = "Password" className={myInput} />
+                    <div className={myError}>
+                        <ErrorMessage name="password" />
+                    </div>
                 </div>
 
                 <button type="submit" className={myButton} disabled={ !values.username || !values.password } >

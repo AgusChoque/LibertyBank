@@ -40,3 +40,8 @@
 .imgLogo{
     height: 80%;
 }
+
+.disabled {
+    color: #706e69;
+    cursor: not-allowed;
+}

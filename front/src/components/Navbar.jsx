@@ -1,4 +1,4 @@
-import { myNavbar, navLogo, navViews, navUser, myViews } from "../styles/NavBar.module.css"
+import { myNavbar, navLogo, navViews, navUser, myViews, disabled } from "../styles/NavBar.module.css"
 import NavUser from "./NavUser";
 import ButtonPad from "./ButtonPad";
 import { Link } from "react-router-dom";
@@ -20,7 +20,7 @@ const Navbar = () => {
                     {
                         user.id
                         ? <Link to="/my-appointments">My Appointments</Link>
-                        : <span>My Appointments</span>
+                        : <span className={disabled}>My Appointments</span>
                     }
                 </nav>
             </div>

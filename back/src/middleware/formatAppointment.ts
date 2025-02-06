@@ -63,7 +63,7 @@ const formatAppointment = async (req: Request, res: Response, next: NextFunction
     if (now >= newDate) next(new DataError(400, "The appointment cannot be today or a past date."));
     if (newDate.getDay() === 0 || newDate.getDay() === 6) next(new DataError(400, "The appointment cannot be scheduled on a weekend."));
     if (now.getFullYear() !== newDate.getFullYear()) next(new DataError(400, "The appointment must be scheduled for the current year."));
-
+    req.body.date = `${day}/${month}/${year}`
 
     //Validations for time.
     const splitTime: string[] = time.split(":");

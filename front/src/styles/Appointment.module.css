@@ -58,3 +58,15 @@
     color: #F5F1E3;
     transform: scale(1.1);
 }
+.myButon:disabled {
+    color: #4a4a4ac4;
+    border: 1px solid #4a4a4ac4;
+    cursor: default;
+}
+
+.myButon:disabled:hover {
+    background-color: #172c49;
+    color: #4a4a4ac4;
+    transform: none;
+}
+

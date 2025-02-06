@@ -4,18 +4,25 @@ import { useNavigate } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import validateSchedule from "../helpers/validateSchedule";
 import useAxiosAppointment from "../hooks/useAxiosAppointment";
-import { myForm, small, medium, large, myButon, borderBottom, myInput } from "../styles/Schedule.module.css";
+import { myForm, small, medium, large, myButon, borderBottom, myInput, myError } from "../styles/Schedule.module.css";
+import useAlert from "../hooks/useAlert";
 
 const Schedule = ({ setShowForm }) => {
     const { user, refetchAppointments } = useContext(UserContext);
     const navigate = useNavigate();
-    const { refetch } = useAxiosAppointment("schedule", null)
+    const { refetch } = useAxiosAppointment("schedule", null);
+    const { showAlert } = useAlert();
 
     const handleOnSubmit = async ({date, time, subject}) => {
-        setShowForm(false);
-        const appointment = {date, time, reason: subject, userId: user.id};
-        await refetch(appointment);
-        refetchAppointments();
+        try {
+            setShowForm(false);
+            const appointment = {date, time, reason: subject, userId: user.id};
+            await refetch(appointment);
+            showAlert("Done", "Appointment scheduled successfully", "success")
+            refetchAppointments();
+        } catch (err) {
+            showAlert("Error", err.response.data.error, "error");
+        }
     };
 
     useEffect(() => {
@@ -28,18 +35,23 @@ const Schedule = ({ setShowForm }) => {
         initialValues={{date: "", time: "", subject: ""}}
         validate={validateSchedule}
         onSubmit={handleOnSubmit} >
+        {({values}) => (
             <Form className={myForm} >
 
                 <div className={small}></div>
 
                 <div className={medium}>
                     <Field type="date" name="date" className={myInput} />
-                    <ErrorMessage name="date" />
+                    <div className={myError}>
+                        <ErrorMessage name="date" />
+                    </div>
                 </div>
 
                 <div className={medium}>
                     <Field type="time" name="time" className={myInput} />
-                    <ErrorMessage name="time" />
+                    <div className={myError}>
+                        <ErrorMessage name="time" />
+                    </div>
                 </div>
 
                 <div className={large}>
@@ -57,14 +69,17 @@ const Schedule = ({ setShowForm }) => {
                         <option value="Foreign Currency Exchange">Foreign Currency Exchange</option>
                         <option value="Debit Card Replacement">Debit Card Replacement</option>
                     </Field>
-                    <ErrorMessage name="subject" />
+                    <div className={myError}>
+                        <ErrorMessage name="subject" />
+                    </div>
                 </div>
 
                 <div className={medium}>
-                    <button type="submit" className={myButon} >Schedule</button>
+                    <button type="submit" className={myButon} disabled={!values.date || !values.time || !values.subject ? true : false} >Schedule</button>
                 </div>
 
             </Form>
+        )}
         </Formik>
                 <div className={borderBottom}></div>
         </>

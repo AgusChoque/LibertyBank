@@ -1,15 +1,21 @@
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import validateRegister from "../helpers/validateRegister";
 import axios from "axios";
-import { myForm, myField, myInput, myButton, custom, myLabel } from "../styles/MyForm.module.css";
+import { myForm, myField, myInput, myButton, myError, myLabel } from "../styles/MyForm.module.css";
+import useAlert from "../hooks/useAlert";
+import { useNavigate } from "react-router-dom";
 
 const MyRegisterForm = () => {
+    const { showAlert } = useAlert();
+    const navigate = useNavigate();
+
     const handleOnSubmit = async ({name, email, birthdate, nDni, username, password}) => {
         try {
             await axios.post("http://localhost:3000/users/register", {name, email, birthdate, nDni, credentials: {username, password}});
-            alert("User registered succesfully.")
+            showAlert("Done", "User registered succesfully", "success");
+            navigate("/login");
         } catch (err) {
-            alert("Error: "+ err.response.data.error);
+            showAlert("Error", err.response.data.error, "error");
         };
     };
 
@@ -23,37 +29,49 @@ const MyRegisterForm = () => {
                 <div className={myField}>
                     <label className={myLabel}>Name</label>
                     <Field type="text" name="name" className={myInput} />
-                    <ErrorMessage name="name" className={custom} />
+                    <div className={myError}>
+                        <ErrorMessage name="name" />
+                    </div>
                 </div>
 
                 <div className={myField}>
                     <label className={myLabel}>Email</label>
                     <Field type="email" name="email" className={myInput} />
-                    <ErrorMessage name="email" className={custom} />
+                    <div className={myError}>
+                        <ErrorMessage name="email" />
+                    </div>
                 </div>
 
                 <div className={myField}>
                     <label className={myLabel}>Birthdate</label>
                     <Field type="date" name="birthdate" className={myInput} />
-                    <ErrorMessage name="birthdate" className={custom} />
+                    <div className={myError}>
+                        <ErrorMessage name="birthdate" />
+                    </div>
                 </div>
 
                 <div className={myField}>
                     <label className={myLabel}>DNI</label>
                     <Field type="number" name="nDni" className={myInput} />
-                    <ErrorMessage name="nDni" className={custom} />
+                    <div className={myError}>
+                        <ErrorMessage name="nDni" />
+                    </div>
                 </div>
 
                 <div className={myField}>
                     <label className={myLabel}>Username</label>
                     <Field type="text" name="username" className={myInput} />
-                    <ErrorMessage name="username" className={custom} />
+                    <div className={myError}>
+                        <ErrorMessage name="username" />
+                    </div>
                 </div>
 
                 <div className={myField}>
                     <label className={myLabel}>Password</label>
                     <Field type="password" name="password" className={myInput} />
-                    <ErrorMessage name="password" className={custom} />
+                    <div className={myError}>
+                        <ErrorMessage name="password" />
+                    </div>
                 </div>
 
                 <button type="submit" className={myButton} disabled={ !values.name || !values.email || !values.birthdate || !values.nDni || !values.username || !values.password } >

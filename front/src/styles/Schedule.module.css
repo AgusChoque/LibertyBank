@@ -41,6 +41,17 @@
     transform: scale(1.1);
 }
 
+.myButon:disabled {
+    color: #4a4a4ac4;
+    border: 1px solid #4a4a4ac4;
+    cursor: default;
+}
+
+.myButon:disabled:hover {
+    background-color: #172c49;
+    transform: none;
+}
+
 .borderBottom {
     height: 1px;
     width: 95%;
@@ -63,4 +74,8 @@
 
 .myInput:focus {
     border: 2px solid #E6AF2E;
+}
+
+.myError {
+    color: #D72638;
 }

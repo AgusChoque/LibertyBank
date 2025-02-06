@@ -19,7 +19,7 @@ const LazyAppointmentsLoader = ({status}) => {
     return (
         <>
         {
-            !appointments.length ? (<p className={noAppoint}>There are no actives appointments yet, try scheduling one.</p>) :
+            !appointments.length ? (<p className={noAppoint}>There are no appointments yet, try scheduling one.</p>) :
             (appointments.map((appointment)=>{
                 return <Appointment
                 key={appointment.id}

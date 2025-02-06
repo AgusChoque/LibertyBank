@@ -2,17 +2,24 @@ import { useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
 import useAxiosAppointment from "../hooks/useAxiosAppointment";
 import { myAppointment, small, medium, large, borderBottom, active, cancelled, myButon } from "../styles/Appointment.module.css";
+import useAlert from "../hooks/useAlert";
 
 const Appointment = ({id, date, time, reason, status}) => {
     const { refetchAppointments } = useContext(UserContext);
     const { refetch } = useAxiosAppointment("cancel", 0);
+    const { showAlert } = useAlert();
+    const now = new Date();
+    const appointDate = new Date(date);
+    const [hour, min] = time.split(":").map(Number);
+    const dateLimit = new Date(appointDate.getFullYear(), appointDate.getMonth(), appointDate.getDate() - 1, hour, min);
 
     const handleCancel = async () => {
         try {
             await refetch(id)
+            showAlert("Done", "Appointment cancelled successfully", "success")
             refetchAppointments();
-        } catch (error) {
-            console.log(error);
+        } catch (err) {
+            showAlert("Error", err.response.data.error, "error");
         };
     };
 
@@ -27,7 +34,7 @@ const Appointment = ({id, date, time, reason, status}) => {
             <p className={large}>{reason}</p>
             <div className={medium}>
                 {status === "active" 
-                ? <button onClick={handleCancel} className={myButon} >Cancel</button> 
+                ? <button onClick={handleCancel} className={myButon} disabled={ dateLimit < now ? false : true } >Cancel</button> 
                 : <></>}
             </div>
         </div>
