@@ -14,7 +14,8 @@ const appointmentsData: AppointmentDto[] = [
     { date: "30/09/2025", time: "10:30", userId: 3, reason: "Check Deposit Issue" },
     { date: "18/10/2025", time: "17:20", userId: 4, reason: "Transaction Dispute" },
     { date: "25/11/2025", time: "15:45", userId: 3, reason: "Foreign Currency Exchange" },
-    { date: "05/12/2025", time: "12:00", userId: 4, reason: "Debit Card Replacement" }
+    { date: "05/12/2025", time: "12:00", userId: 4, reason: "Debit Card Replacement" },
+    { date: "06/02/2025", time: "16:00", userId: 5, reason: "Debit Card Replacement" }
 ];
 
 const preloadAppointments = async () => {

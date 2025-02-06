@@ -8,10 +8,10 @@ const Appointment = ({id, date, time, reason, status}) => {
     const { refetchAppointments } = useContext(UserContext);
     const { refetch } = useAxiosAppointment("cancel", 0);
     const { showAlert } = useAlert();
+    const [ day, month, year] = date.split("/").map(Number);
     const now = new Date();
-    const appointDate = new Date(date);
     const [hour, min] = time.split(":").map(Number);
-    const dateLimit = new Date(appointDate.getFullYear(), appointDate.getMonth(), appointDate.getDate() - 1, hour, min);
+    const dateLimit = new Date(year, month -1, day - 1, hour, min);
 
     const handleCancel = async () => {
         try {
@@ -34,7 +34,7 @@ const Appointment = ({id, date, time, reason, status}) => {
             <p className={large}>{reason}</p>
             <div className={medium}>
                 {status === "active" 
-                ? <button onClick={handleCancel} className={myButon} disabled={ dateLimit < now ? false : true } >Cancel</button> 
+                ? <button onClick={handleCancel} className={myButon} disabled={ dateLimit < now ? true : false } >Cancel</button> 
                 : <></>}
             </div>
         </div>

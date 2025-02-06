@@ -1,0 +1,36 @@
+.container {
+    width: 70vw;
+    justify-self: center;
+    display: flex;
+    flex-direction: column;
+    gap: 3.5em;
+    margin-top: 2em;
+    margin-bottom: 5em;
+}
+
+.mySection {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2em;
+}
+
+.myArticle {
+    display: flex;
+    flex-direction: column;
+    gap: .5em;
+    align-items: start;
+}
+
+.subtitle {
+    font-size: 1.3em;
+    font-weight: 800;
+}
+
+.joinUs {
+ transition: color ease .3s, transform ease .3s;
+}
+
+.joinUs:hover {
+    color: #E6AF2E;
+    transform: scale(1.1);
+}
