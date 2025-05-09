@@ -125,7 +125,7 @@ Si deseas colaborar con este proyecto, ¡serás muy bienvenido!
 
 ### A quienes quiero agradecer
 
-Este proyecto no habría sido posible sin el acompañamiento y la formación que recibí en **Henry**. Gracias por brindarme un espacio donde aprender, equivocarme y crecer como desarrollador. Fue ahí donde surgió la idea de crear esta aplicación, y donde pude transformarla en una realidad concreta.
+Este proyecto no habría sido posible sin el acompañamiento y la formación que recibí en **Henry**. Gracias por brindarme un espacio donde aprender, equivocarme y crecer como desarrollador 🚀. Fue ahí donde surgió la idea de crear esta aplicación, y donde pude transformarla en una realidad concreta.
 
 ### Documentación útil
 
