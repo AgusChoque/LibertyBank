@@ -1,6 +1,6 @@
 # 🏦 Liberty Bank – Gestión de Turnos
 
-**Liberty Bank** es una aplicación web que permite a los usuarios solicitar, consultar y cancelar turnos con su banco de manera rápida, simple y sin necesidad de hacer filas. Está pensada para mejorar la experiencia de atención al cliente en sucursales físicas.
+**Liberty Bank** es una **SPA** (Single Page Application) que permite a los usuarios solicitar, consultar y cancelar turnos con su banco de manera rápida, simple y sin necesidad de hacer filas. Está pensada para mejorar la experiencia de atención al cliente en sucursales físicas.
 
 ---
 
@@ -83,7 +83,7 @@ npm install
 ```
 Levantá el servidor:
 ```bash
-npm run dev
+npm start
 ```
 
 ### 2. Iniciar el frontend
@@ -97,9 +97,9 @@ npm install
 ```
 Levantá el frontend:
 ```bash
-npm start
+npm run dev
 ```
-Ahora podés abrir tu navegador y visitar `http://localhost:3000` para usar la app 🚀
+Ahora podés abrir tu navegador y visitar la url que te proporciona `VITE` para usar la app 🚀
 
 ---
 
